@@ -76,7 +76,7 @@ def creat_states():
     except:
         os.mkdir("bot/modules")
         file = open('bot/modules/states.py', 'w')
-    excel = openpyxl.reader.excel.load_workbook(filename = 'creator.xlsx')
+    excel = openpyxl.reader.excel.load_workbook(filename='creator.xlsx')
     excel.active = 0
     sheet = excel.active
     i = 2
@@ -122,17 +122,35 @@ def creat_keyboards():
         file = open('bot/modules/keybords.py', 'w', encoding='utf-8')
     except:
         os.mkdir("bot")
+        os.mkdir("modules")
         file = open('bot/modules/keybords.py', 'w', encoding='utf-8')
-    text = """
+    start_text = """
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-
-btn_1_1 = KeyboardButton(f'Первая кнопка')
-btn_1_2= KeyboardButton(f'Вторая кнопка')
-
-keyboard_1 = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(btn_1_1, btn_1_2)
-        """
+"""
+    excel = openpyxl.reader.excel.load_workbook(filename='creator.xlsx')
+    excel.active = 0
+    sheet = excel.active
+    i = 2
+    new_kb_text = ''
+    btn_text = ''
+    btn_add_text = ''
+    proces = True
+    while proces:
+        if "reply" in str(sheet[f'C{i}'].value):
+            new_kb_text = new_kb_text + f'''
+keyboard_{i} = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)'''
+            letters = ("D", "E", "F", "G", "H", "I", "J", "K", "L", "M")
+            for l in letters:
+                if sheet[f'{l}{i}'].value is not None:
+                    btn_text = btn_text + f"""                   
+btn_{i}_{l} = KeyboardButton('{str(sheet[f'{l}{i}'].value)}')"""
+                    btn_add_text = btn_add_text + f"""    
+keyboard_{i}.add(btn_{i}_{l})"""
+            i += 1
+        else:
+            proces = False
+    text = start_text + "\n" + new_kb_text + "\n" + btn_text +"\n" + btn_add_text
     file.write(text)
     file.close()
 
@@ -152,6 +170,7 @@ import logging
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from modules.states import AllStates
+from modules import keybords
 
 
 # Start menu
@@ -160,7 +179,7 @@ async def start_menu(message: types.Message):
     await message.answer(text='Привет! Ты попал в Телеграм бот.\\n'
                               'Для получения общей информации о нашей деятельности нажми /help\\n'
                               'Для отмены всех действий в любой момент нажмите /cancel')
-    await AllStates.question_1.set()
+    await AllStates.question_2.set()
     
         """
     excel = openpyxl.reader.excel.load_workbook(filename='creator.xlsx')
@@ -172,13 +191,25 @@ async def start_menu(message: types.Message):
     while proces:
         if sheet[f'A{i}'].value is not None:
             text = str(sheet[f'A{i}'].value)
-            handlers_text = handlers_text + f"""
+            if "reply" in str(sheet[f'C{i}'].value):
+                handlers_text = handlers_text + f"""
     
 # Question handler №{i}
 @dp.message_handler(state=AllStates.question_{i})
 async def question_{i}_menu(message: types.Message):
-    await message.answer(text='{text}')
+    await message.answer(text='{text}', reply_markup=keybords.keyboard_{i})
     """
+            elif "inline" in str(sheet[f'C{i}'].value):
+                pass
+            else:
+                handlers_text = handlers_text + f"""
+
+# Question handler №{i}
+@dp.message_handler(state=AllStates.question_{i})
+async def question_{i}_menu(message: types.Message):
+    await message.answer(text='{text}', 
+    reply_markup=types.ReplyKeyboardRemove())
+"""
             if sheet[f'A{i+1}'].value is not None:
                 handlers_text = handlers_text + f"""
     await AllStates.question_{i + 1}.set()
