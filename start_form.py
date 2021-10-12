@@ -83,7 +83,7 @@ def creat_states():
     questions_text = ''
     proces = True
     while proces:
-        if sheet[f'A{i}'].value is not None:
+        if sheet[f'B{i}'].value is not None:
             questions_text = questions_text +  f"""
     question_{i} = State()"""
             i += 1
@@ -137,14 +137,25 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
     btn_add_text = ''
     proces = True
     while proces:
-        if "reply" in str(sheet[f'C{i}'].value):
+        if "reply" in str(sheet[f'D{i}'].value):
             new_kb_text = new_kb_text + f'''
 keyboard_{i} = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)'''
-            letters = ("D", "E", "F", "G", "H", "I", "J", "K", "L", "M")
+            letters = ("E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
             for l in letters:
                 if sheet[f'{l}{i}'].value is not None:
                     btn_text = btn_text + f"""                   
 btn_{i}_{l} = KeyboardButton('{str(sheet[f'{l}{i}'].value)}')"""
+                    btn_add_text = btn_add_text + f"""    
+keyboard_{i}.add(btn_{i}_{l})"""
+            i += 1
+        elif "inline" in str(sheet[f'D{i}'].value):
+            new_kb_text = new_kb_text + f'''
+keyboard_{i} = InlineKeyboardMarkup()'''
+            letters = ("E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
+            for l in letters:
+                if sheet[f'{l}{i}'].value is not None:
+                    btn_text = btn_text + f"""                   
+btn_{i}_{l} = InlineKeyboardButton(text='{str(sheet[f'{l}{i}'].value).split("###")[0]}', callback_data='{str(sheet[f'{l}{i}'].value).split("###")[1]}')"""
                     btn_add_text = btn_add_text + f"""    
 keyboard_{i}.add(btn_{i}_{l})"""
             i += 1
@@ -189,9 +200,9 @@ async def start_menu(message: types.Message):
     handlers_text = ''
     proces = True
     while proces:
-        if sheet[f'A{i}'].value is not None:
-            text = str(sheet[f'A{i}'].value)
-            if "reply" in str(sheet[f'C{i}'].value):
+        if sheet[f'B{i}'].value is not None:
+            text = str(sheet[f'B{i}'].value)
+            if "reply" in str(sheet[f'D{i}'].value):
                 handlers_text = handlers_text + f"""
     
 # Question handler №{i}
@@ -199,8 +210,14 @@ async def start_menu(message: types.Message):
 async def question_{i}_menu(message: types.Message):
     await message.answer(text='{text}', reply_markup=keybords.keyboard_{i})
     """
-            elif "inline" in str(sheet[f'C{i}'].value):
-                pass
+            elif "inline" in str(sheet[f'D{i}'].value):
+                handlers_text = handlers_text + f"""
+
+# Question handler №{i}
+@dp.message_handler(state=AllStates.question_{i})
+async def question_{i}_menu(message: types.Message):
+    await message.answer(text='{text}', reply_markup=keybords.keyboard_{i})
+    """
             else:
                 handlers_text = handlers_text + f"""
 
@@ -210,7 +227,7 @@ async def question_{i}_menu(message: types.Message):
     await message.answer(text='{text}', 
     reply_markup=types.ReplyKeyboardRemove())
 """
-            if sheet[f'A{i+1}'].value is not None:
+            if sheet[f'B{i+1}'].value is not None:
                 handlers_text = handlers_text + f"""
     await AllStates.question_{i + 1}.set()
                     """

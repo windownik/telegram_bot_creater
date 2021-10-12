@@ -10,3 +10,5 @@ class AllStates(StatesGroup):
     question_4 = State()
     question_5 = State()
     question_6 = State()
+    question_7 = State()
+    question_8 = State()

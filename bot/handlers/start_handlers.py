@@ -54,5 +54,21 @@ async def question_5_menu(message: types.Message):
 # Question handler №6
 @dp.message_handler(state=AllStates.question_6)
 async def question_6_menu(message: types.Message):
-    await message.answer(text='Вопрос 5', 
+    await message.answer(text='Вопрос 5', reply_markup=keybords.keyboard_6)
+    
+    await AllStates.question_7.set()
+                    
+
+# Question handler №7
+@dp.message_handler(state=AllStates.question_7)
+async def question_7_menu(message: types.Message):
+    await message.answer(text='Вопрос 6', reply_markup=keybords.keyboard_7)
+    
+    await AllStates.question_8.set()
+                    
+
+# Question handler №8
+@dp.message_handler(state=AllStates.question_8)
+async def question_8_menu(message: types.Message):
+    await message.answer(text='Вопрос 7', 
     reply_markup=types.ReplyKeyboardRemove())
