@@ -74,9 +74,12 @@ class Ui_Bot_window(object):
         self.retranslateUi(Bot_window)
         QtCore.QMetaObject.connectSlotsByName(Bot_window)
 
+        self.listWidget.addItem("123")
+        self.listWidget.addItem("254274")
+
     def retranslateUi(self, Bot_window):
         _translate = QtCore.QCoreApplication.translate
-        Bot_window.setWindowTitle(_translate("Bot_window", "MainWindow"))
+        Bot_window.setWindowTitle(_translate("Bot_window", "BOT Creater"))
         self.add_handler_btn.setText(_translate("Bot_window", "Добавить хэндлер"))
         self.list_label.setText(_translate("Bot_window", "Список хэндлеров"))
         self.pushButton_2.setText(_translate("Bot_window", "Добавить клавиатуру"))
