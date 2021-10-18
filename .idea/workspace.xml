@@ -2,21 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57332760-c725-4d75-a101-6b746d2bd782" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/create_keyboards.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/create_main_files.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/create_states.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/handlers/start_handlers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/modules/dispatcher.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/modules/keybords.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/modules/states.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/telegram.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/creator.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/creator.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_handlers.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_handlers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_form.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -3,12 +3,7 @@ import openpyxl
 
 
 # Создаем импорты
-def creat_hendler(start_handler_text: str='Привет! Ты попал в Телеграм бот'):
-    try:
-        file = open('bot/handlers/start_handlers.py', 'w', encoding='utf-8')
-    except:
-        os.mkdir("bot/handlers")
-        file = open('bot/handlers/start_handlers.py', 'w', encoding='utf-8')
+def create_start_text(start_handler_text: str='Привет! Ты попал в Телеграм бот'):
     text_standart = f"""
 from aiogram import types
 from main import dp
@@ -27,34 +22,16 @@ async def start_menu(message: types.Message):
     await AllStates.question_2.set()
 
         """
+    return(text_standart)
+
 
 # Создаем хэндлеры
-def creat_hendler():
+def create_handler():
     try:
         file = open('bot/handlers/start_handlers.py', 'w', encoding='utf-8')
     except:
         os.mkdir("bot/handlers")
         file = open('bot/handlers/start_handlers.py', 'w', encoding='utf-8')
-    text_standart = """
-from aiogram import types
-from main import dp
-from aiogram.dispatcher.filters import Text
-import logging
-from aiogram.dispatcher import FSMContext
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from modules.states import AllStates
-from modules import keybords
-
-
-# Start menu
-@dp.message_handler(commands=['start'], state='*')
-async def start_menu(message: types.Message):
-    await message.answer(text='Привет! Ты попал в Телеграм бот.\\n'
-                              'Для получения общей информации о нашей деятельности нажми /help\\n'
-                              'Для отмены всех действий в любой момент нажмите /cancel')
-    await AllStates.question_2.set()
-    
-        """
     excel = openpyxl.reader.excel.load_workbook(filename='creator.xlsx')
     excel.active = 0
     sheet = excel.active
@@ -130,5 +107,5 @@ async def question_{i}_menu(call: types.CallbackQuery):
         else:
             proces = False
 
-    file.write(text_standart + handlers_text)
+    file.write(create_start_text() + handlers_text)
     file.close()
