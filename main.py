@@ -1,10 +1,13 @@
-import start_form
+import create_handlers
+from create_main_files import *
+from create_keyboards import *
+from create_states import *
 
 if __name__ == '__main__':
-    start_form.creat_main()
-    start_form.creat_json()
-    start_form.creat_dispatcher()
-    start_form.creat_states()
-    start_form.creat_init()
-    start_form.creat_hendler()
-    start_form.creat_keyboards()
+    creat_main()
+    creat_json()
+    creat_dispatcher()
+    creat_states()
+    creat_init()
+    creat_keyboards()
+    create_handlers.creat_hendler()
