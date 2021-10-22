@@ -17,7 +17,7 @@ def creat_states():
     proces = True
     while proces:
         if sheet[f'B{i}'].value is not None:
-            questions_text = questions_text +  f"""
+            questions_text = questions_text + f"""
     question_{i} = State()"""
             i += 1
         else:
